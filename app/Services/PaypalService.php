@@ -64,6 +64,10 @@ class PaypalService
 
         $approve = $orderLinks->where('rel', 'approve')->first();
 
+        $orderId = $order->id;
+
+        Appointment::createForPatient($request, auth()->id(), $orderId);
+
         session()->put('approvalId', $order->id);
       /*   Appointment::createForPatient($request, auth()->id()); */
        /*  return $paymentPlatform->handlePayment($request);  */
@@ -88,13 +92,20 @@ class PaypalService
         /*     $citas = Appointment::where('patient_id', $id)->first();  */
 
           /*   $appointment= \DB::table('appointments');   */
-          $id = Appointment::latest()->id->get();
-            \DB::table('appointments')
-            ->where($id)
-            ->update(['status_pay' => 'Completado']);
+            // $id = \DB::table('appointments')->latest('id')->first();
+            // $query = Appointment::select('id')->first();
+            // $id_ultimo_registro = $query->id;
+            // \DB::table('appointments')
+            // ->where('id',$id_ultimo_registro)
+            // ->update(['status_pay' => 'Completado']);
            
           /*   $citas->status_pay='Completado';
             $citas->save(); */
+
+            Appointment::where('order_id', $approvalId)->first()
+            ->update([
+                'status_pay' => 'Completado'
+            ]);
 
             return redirect()
             ->route('appointments')

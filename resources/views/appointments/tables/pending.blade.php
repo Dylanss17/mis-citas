@@ -13,6 +13,7 @@
         <th scope="col">Hora</th>
         <th scope="col">Tipo</th>
         <th scope="col">Precio</th>
+        <th scope="col">Estado de Pago</th>
         <th scope="col">Opciones</th>
       </tr>
     </thead>
@@ -41,6 +42,9 @@
         </td>
         <td>
           {{ $appointment->appointments_price }}
+        </td>
+        <td>
+          {{ $appointment->status_pay }}
         </td>
         <td>
           @if ($role == 'admin')

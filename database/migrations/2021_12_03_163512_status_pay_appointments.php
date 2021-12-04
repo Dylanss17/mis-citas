@@ -15,6 +15,7 @@ class StatusPayAppointments extends Migration
     {
         Schema::table('appointments', function (Blueprint $table) {
             // Reservada, Confirmada, Atendida, Cancelada
+            $table->string('order_id')->default('');
             $table->string('status_pay')->default('Por Confirmar');
         });
     }

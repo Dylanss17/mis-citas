@@ -18,8 +18,9 @@ class Appointment extends Model
     	'scheduled_date',
     	'scheduled_time',
         'appointments_price',
+    	'type',
+        'order_id',
         'status_pay',
-    	'type'
     ];
 
     protected $hidden = [
@@ -63,7 +64,7 @@ class Appointment extends Model
             ->format('g:i A');
     }
 
-    static public function createForPatient(Request $request, $patientId) {
+    static public function createForPatient(Request $request, $patientId, $orderId) {
         $data = $request->only([
             'id',
             'description', 
@@ -76,6 +77,7 @@ class Appointment extends Model
         ]);
 
         $data['patient_id'] = $patientId;
+        $data['order_id'] = $orderId;
 
         // right time format
         $carbonTime = Carbon::createFromFormat('g:i A', $data['scheduled_time']);

@@ -40,7 +40,7 @@ class AppointmentController extends Controller
                 ->paginate(10);
 
         } elseif ($role == 'patient'){
-            $pendingAppointments = Appointment::where('status', 'Reservada')
+            $pendingAppointments = Appointment::where('status', 'Reservada')->where('status_pay', 'Completado')
                 ->where('patient_id', auth()->id())
                 ->paginate(10);
             $confirmedAppointments = Appointment::where('status', 'Confirmada')
@@ -103,7 +103,7 @@ class AppointmentController extends Controller
         $request->validate($rules);
         $paymentPlatform = resolve(PaypalService::class);
         
-        Appointment::createForPatient($request, auth()->id());
+        
         return $paymentPlatform->handlePayment($request);
 
     	/* $notification = 'La cita se ha registrado correctamente!';
